@@ -1,8 +1,18 @@
 import Stripe from 'stripe';
 
+function cors(req, res) {
+  const origin = process.env.CORS_ORIGIN || process.env.SITE_ORIGIN || '*';
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Vary', 'Origin');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+}
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' });
 
 export default async function handler(req, res) {
+  cors(req, res);
+  if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
   try {
     const { session_id } = req.query;

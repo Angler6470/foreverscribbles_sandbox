@@ -1,17 +1,28 @@
 import Stripe from 'stripe';
 
+function cors(req, res) {
+  const origin = process.env.CORS_ORIGIN || process.env.SITE_ORIGIN || '*';
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Vary', 'Origin');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+}
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' });
 
 export default async function handler(req, res) {
+  cors(req, res);
+  if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { priceKey = 'DIGITAL', customer_email, metadata = {} } = JSON.parse(req.body || '{}');
+    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {}
+    const { priceKey = 'DIGITAL', customer_email, metadata = {} } = body;
 
     const priceMap = {
       DIGITAL: process.env.STRIPE_PRICE_DIGITAL,
-      PDF: process.env.STRIPE_PRICE_PDF,
-      BUNDLE: process.env.STRIPE_PRICE_BUNDLE
+      PICKUP: process.env.STRIPE_PRICE_PICKUP,
+      SHIPPED: process.env.STRIPE_PRICE_SHIPPED
     };
 
     const priceId = priceMap[priceKey];
@@ -21,12 +32,12 @@ export default async function handler(req, res) {
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      payment_method_types: ['card'],
       allow_promotion_codes: true,
       customer_email: customer_email || undefined,
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${origin}/upload.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/#pricing`,
+      automatic_tax: { enabled: false },
       metadata
     });
 
