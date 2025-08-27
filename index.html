@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Permissions-Policy" content="autoplay=(), camera=(), encrypted-media=(), fullscreen=(self), geolocation=(), microphone=(), payment=(self)">
+    <meta http-equiv="Access-Control-Allow-Origin" content="https://api.jotform.com https://form.jotform.com https://www.paypal.com">
+    <meta http-equiv="Access-Control-Allow-Methods" content="GET, POST, OPTIONS">
+    <title>Forever Scribbles - Turn Your Kid's Art Into Real Coloring Books</title>
+    <meta name="description" content="Transform your child's artwork into beautiful, custom coloring books. Professional printing service for families who want to preserve and celebrate creativity.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='32' height='32'><text y='.9em' font-size='90'>🎨</text></svg>">
+    
+    <!-- Load Stripe -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <!-- Our modules -->
+    <script src="js/forms.js"></script>
+    <script src="js/payments.js"></script>
+</head>
+<body>
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="#">
+                    <div class="logo">
+                        <!-- Allow the logo to scale naturally by removing fixed dimensions -->
+                        <img src="assets/logo.png" alt="Forever Scribbles">
+                    </div>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#how-it-works" class="nav-link">How It Works</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <a href="#order-forms" class="nav-link nav-cta">Start Your Book</a>
+            </div>
+            
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-bg">
+                <div class="floating-shape shape-1">🌟</div>
+                <div class="floating-shape shape-2">🎈</div>
+                <div class="floating-shape shape-3">✨</div>
+                <div class="floating-shape shape-4">🦋</div>
+            </div>
+            
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <div class="section-label">✨ Magic Awaits</div>
+                        <h1 class="hero-title">
+                            Turn Your Kid's Art Into 
+                            <span class="gradient-text">Real Coloring Books</span>
+                        </h1>
+                        <p class="hero-subtitle">
+                            Upload the masterpieces, we'll handle the magic—print or digital. 
+                            Create lasting memories from your child's creativity.
+                        </p>
+                        
+                        <div class="hero-buttons">
+                            <a href="#order-forms" class="btn btn-primary btn-large">
+                                <span>Start Your Book</span>
+                                <span class="btn-icon">🎨</span>
+                            </a>
+                            <a href="#gallery" class="btn btn-examples btn-large">
+                                <span>See Examples</span>
+                                <span class="btn-icon">👀</span>
+                            </a>
+                        </div>
+                        
+                        <div class="trust-badges">
+                            <!-- Highlight real customer benefits instead of placeholders -->
+                            <div class="trust-item">
+                                <span class="trust-icon">✅</span>
+                                <span>Free shipping on all orders</span>
+                            </div>
+                            <div class="trust-item">
+                                <span class="trust-icon">💝</span>
+                                <span>100% satisfaction guarantee</span>
+                            </div>
+                            <div class="trust-item">
+                                <span class="trust-icon">🔒</span>
+                                <span>Kid‑safe materials</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-image">
+                        <div class="hero-card">
+                            <div class="card-content">
+                                <div class="placeholder-image">
+                                    <div class="image-icon">
+                                        <!-- Remove fixed dimensions so the hero illustration scales smoothly on all devices -->
+                                        <img src="assets/front.png" alt="Example of child artwork turned into a colouring page">
+                                    </div>
+                                    <p>Your child's artwork becomes their own coloring book or your own scribbles to hold onto forever!</p>
+                                </div>
+                            </div>
+                            <div class="card-decorations">
+                                <div class="decoration decoration-1">⭐</div>
+                                <div class="decoration decoration-2">💖</div>
+                                <div class="decoration decoration-3">🌈</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">🚀 Simple Process</div>
+                    <h2 class="section-title">From Crayon to Coloring Book in <span class="highlight">4 Easy Steps</span></h2>
+                    <p class="section-subtitle">We make it super easy to turn your little artist's creations into a professional coloring book they'll treasure forever.</p>
+                </div>
+                
+                <div class="steps-grid">
+                    <div class="step-card" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">✨</div>
+                        <h3 class="step-title">Fill out <a href="#order-forms" class="link"> <i> this</i></a> order form</h3>
+                        <p class="step-description">Quick and easy! Just tell us your child’s name, age, and a few details so we can start making their special coloring book.</p>
+                    </div>
+                    <div class="step-card" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">📸</div>
+                        <h3 class="step-title">Upload your child's famous artwork</h3>
+                        <p class="step-description">Upload your child's artwork - drawings, paintings, or doodles work perfectly!</p>
+                    </div>
+                    <div class="step-card" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-icon">📎</div>
+                        <h3 class="step-title">Add Custom Touches</h3>
+                        <p class="step-description">Choose a cover style, title, dedication, or even add extra doodles to make it extra special!</p>
+                    </div>
+                    <div class="step-card" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-icon">👀</div>
+                        <h3 class="step-title">We Convert</h3>
+                        <p class="step-description">Our team transforms the artwork into crisp, clean coloring book pages.</p>
+                    </div>
+                    <div class="step-card" data-step="5">
+                        <div class="step-number">5</div>
+                        <div class="step-icon">📦</div>
+                        <h3 class="step-title">We Print & Ship</h3>
+                        <p class="step-description">Your custom coloring book is printed, and if desired, shipped to you!</p>
+                    </div>
+                    <div class="step-card" data-step="6">
+                        <div class="step-number">6</div>
+                        <div class="step-icon">📚</div>
+                        <h3 class="step-title">Cherish the Memories</h3>
+                        <p class="step-description">Your finished coloring book arrives — ready to be treasured, gifted, or filled in with love.</p>
+                    </div>
+                </div>
+            </div>
+
+                <div class="cta-section">
+                    <a href="#order-forms" class="btn btn-primary btn-large">Ready to Get Started? 🎉</a>
+                </div>
+            </div>
+        </section>
+
+
+                <!-- Gallery Section (Redesigned Before/After) -->
+                <section id="gallery" class="section section-alt">
+                    <div class="container">
+                        <div class="section-header">
+                            <div class="section-label">🎨 Amazing Results</div>
+                            <h2 class="section-title">See the <span class="highlight">Magic</span> in Action</h2>
+                            <p class="section-subtitle">Real examples of children's artwork transformed into beautiful coloring books.</p>
+                        </div>
+                        <div class="before-after-gallery">
+                            <div class="ba-card" data-ba="1">
+                                <div class="ba-images">
+                                    <div class="ba-img-wrap"><img src="assets/1_before.png" alt="Before 1"></div>
+                                    <div class="ba-img-wrap"><img src="assets/1_after.png" alt="After 1"></div>
+                                </div>
+                                <div class="ba-labels">
+                                    <span class="ba-label-before"></span>
+                                    <span class="ba-label-after"></span>
+                                </div>
+                            </div>
+                            <div class="ba-card" data-ba="2">
+                                <div class="ba-images">
+                                    <div class="ba-img-wrap"><img src="assets/2_before.png" alt="Before 2"></div>
+                                    <div class="ba-img-wrap"><img src="assets/2_after.png" alt="After 2"></div>
+                                </div>
+                                <div class="ba-labels">
+                                    <span class="ba-label-before"></span>
+                                    <span class="ba-label-after"></span>
+                                </div>
+                            </div>
+                            <div class="ba-card" data-ba="3">
+                                <div class="ba-images">
+                                    <div class="ba-img-wrap"><img src="assets/3_before.png" alt="Before 3"></div>
+                                    <div class="ba-img-wrap"><img src="assets/3_after.png" alt="After 3"></div>
+                                </div>
+                                <div class="ba-labels">
+                                    <span class="ba-label-before"></span>
+                                    <span class="ba-label-after"></span>
+                                </div>
+                            </div>
+                            <div class="ba-card" data-ba="4">
+                                <div class="ba-images">
+                                    <div class="ba-img-wrap"><img src="assets/4_before.png" alt="Before 4"></div>
+                                    <div class="ba-img-wrap"><img src="assets/4_after.png" alt="After 4"></div>
+                                </div>
+                                <div class="ba-labels">
+                                    <span class="ba-label-before"></span>
+                                    <span class="ba-label-after"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Lightbox -->
+                    <div class="ba-lightbox" id="baLightbox">
+                        <div class="ba-lightbox-content">
+                            <button class="ba-lightbox-close" id="baLightboxClose" aria-label="Close">&times;</button>
+                            <div class="ba-lightbox-imgs">
+                                <div class="ba-lightbox-img-wrap"><img id="baLightboxBefore" src="" alt="Before Full"></div>
+                                <div class="ba-lightbox-img-wrap"><img id="baLightboxAfter" src="" alt="After Full"></div>
+                            </div>
+                            <div class="ba-labels" style="margin-top:1.2rem;">
+                                <span class="ba-label-before"></span>
+                                <span class="ba-label-after"></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">💰 Choose Your Package</div>
+                    <h2 class="section-title">Perfect for Every <span class="highlight">Little Artist</span></h2>
+                    <p class="section-subtitle">Select the package that's right for your child's creativity level.</p>
+                </div>
+                
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Digital Only</h3>
+                            <p class="pricing-subtitle">Perfect for instant fun</p>
+                        </div>
+                        <div class="pricing-price">
+                            <span class="price">$15</span>
+                            <span class="period">one-time</span>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>✅ Up to 50 coloring pages</li>
+                            <li>✅ High-quality PDF download</li>
+                            <li>✅ 24 - 72 hour turnaround</li>
+                            <li>✅ Sent straight to your email</li>
+                        </ul>
+                        <button class="btn btn-outline btn-full" data-price="DIGITAL" data-package="digital">Order Digital ($15)</button>
+                    </div>
+
+                    <div class="pricing-card pricing-featured">
+                        <div class="pricing-badge">Most Popular!</div>
+                        <div class="pricing-header">
+                            <h3>Printed Book</h3>
+                            <p class="pricing-subtitle">Beautiful physical book (Shipped)</p>
+                        </div>
+                        <div class="pricing-price">
+                            <span class="price">$45</span>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>✅ Up to 50 coloring pages</li>
+                            <li>✅ Professional printing</li>
+                            <li>✅ Perfect Spiral binding</li>
+                            <li>✅ Custom cover design</li>
+                            <li>✅ Shipping included</li>
+                        </ul>
+                        <button class="btn btn-primary btn-full" data-price="SHIPPED" data-package="shipped">Order Printed (Shipped) $45</button>
+                    </div>
+
+                    <div class="pricing-card pricing-featured">
+                        <div class="pricing-badge">Local Pickup</div>
+                        <div class="pricing-header">
+                            <h3>Printed Book</h3>
+                            <p class="pricing-subtitle">Beautiful physical book (Pickup)</p>
+                        </div>
+                        <div class="pricing-price">
+                            <span class="price">$35</span>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>✅ Up to 50 coloring pages</li>
+                            <li>✅ Professional printing</li>
+                            <li>✅ Perfect Spiral binding</li>
+                            <li>✅ Custom cover design</li>
+                            <li>✅ Local pickup</li>
+                        </ul>
+                        <button class="btn btn-primary btn-full" data-price="PICKUP" data-package="pickup">Order Printed (Pickup) $35</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Forms Section -->
+        <section id="order-forms" class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">🛒 Place Your Order</div>
+                    <h2 class="section-title">Let's Create Something <span class="highlight">Amazing</span></h2>
+                    <p class="section-subtitle">Complete your order in two simple steps. Payment first, then upload your artwork.</p>
+                </div>
+                
+                <!-- Step Indicator -->
+                <div class="form-steps">
+                    <div class="step active" id="step-indicator-1">
+                        <div class="step-circle">1</div>
+                        <span>Payment & Details</span>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step" id="step-indicator-2">
+                        <div class="step-circle">2</div>
+                        <span>Upload Artwork</span>
+                    </div>
+                </div>
+                
+                <!-- Form 1: Payment & Details -->
+                <div class="form-container" id="form-1-container">
+                    <div class="form-card">
+                        <div class="form-header">
+                            <h3>Step 1: Order Details & Payment</h3>
+                            <p>Tell us about your order and complete payment to unlock the upload form.</p>
+                        </div>
+                        
+                        <iframe 
+                            src="https://form.jotform.com/252193946303054" 
+                            width="100%" 
+                            height="800" 
+                            frameborder="0" 
+                            scrolling="auto"
+                            title="Forever Scribbles Order Form - Step 1">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <!-- Form 2: Upload Artwork (Hidden until payment complete) -->
+                <div class="form-container hidden" id="form-2-container">
+                    <div class="form-card">
+                        <div class="form-header">
+                            <h3>Step 2: Upload Your Child's Artwork</h3>
+                            <p>Great! Now upload your child's beautiful artwork and we'll get started on your coloring book.</p>
+                        </div>
+                        
+                        <iframe 
+                            src="https://form.jotform.com/252193255747059" 
+                            width="100%" 
+                            height="600" 
+                            frameborder="0" 
+                            scrolling="auto"
+                            title="Forever Scribbles Upload Form - Step 2">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <!-- Payment Success Message -->
+                <div class="success-message hidden" id="payment-success">
+                    <div class="success-card">
+                        <div class="success-icon">🎉</div>
+                        <h3>Payment Successful!</h3>
+                        <p>Thank you for your order! You can now upload your child's artwork below.</p>
+                        <button class="btn btn-primary" onclick="showUploadForm()">Continue to Upload</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">❓ Got Questions?</div>
+                    <h2 class="section-title">Frequently Asked <span class="highlight">Questions</span></h2>
+                    <p class="section-subtitle">Everything you need to know about creating your custom coloring book.</p>
+                </div>
+                
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+                            <h3>What types of artwork work best?</h3>
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Almost any type of children's artwork works great! We can transform drawings, paintings, sketches, and even digital art. The clearer the lines and shapes, the better the final result, but we work magic with even the messiest masterpieces.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+                            <h3>How long does it take to create my book?</h3>
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Our standard turnaround time is 2-5 business days from when we receive your artwork plus shipping. Digital books are delivered within 72 hours of your order.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+                            <h3>Can I see a preview before you print?</h3>
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Absolutely! Just remind me in the custom instructions section of the form when upload your artwork and I'll send you any requested pages/files before printing. You can request changes or adjustments at this stage. We want you to be 100% happy with the result.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+                            <h3>What if I'm not satisfied with my order?</h3>
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We offer a 100% satisfaction guarantee. If you're not completely happy with your coloring book, we'll work with you to make it right or provide a full refund. Your happiness is our top priority.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+                            <h3>How do you handle my child's artwork?</h3>
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We take privacy very seriously. Your child's artwork is only used to create your custom coloring book and is never shared or used for any other purpose. We securely delete all files after your order is completed.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">💌 Get in Touch</div>
+                    <h2 class="section-title">Have a Quick <span class="highlight">Question?</span></h2>
+                    <p class="section-subtitle">We'd love to hear from you! Send us a message and we'll get back to you within 24 hours.</p>
+                </div>
+                
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div>
+                                <h3>Email Us</h3>
+                                <p>hello@foreverscribbles.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div>
+                                <h3>Follow Us</h3>
+                                <a href="https://facebook.com/foreverscribbles" target="_blank">facebook.com/foreverscribbles</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">🕒</div>
+                            <div>
+                                <h3>Response Time</h3>
+                                <p>Within 24 hours</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form">
+                        <form id="contact-form" onsubmit="submitContactForm(event)">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">Select a topic</option>
+                                    <option value="general">General Question</option>
+                                    <option value="order">Order Support</option>
+                                    <option value="technical">Technical Issue</option>
+                                    <option value="feedback">Feedback</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" rows="5" required placeholder="Tell us how we can help you..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-full">Send Message 💌</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <div class="logo">
+                            <span class="logo-icon">🎨</span>
+                            <span class="logo-text">Forever Scribbles</span>
+                        </div>
+                        <p>Turning your child's artwork into beautiful coloring books since 2024. Celebrate creativity and create lasting memories.</p>
+                        <div class="social-links">
+                            <a href="https://facebook.com/foreverscribbles" target="_blank" aria-label="Facebook">📘</a>
+                            <a href="mailto:hello@foreverscribbles.com" aria-label="Email">📧</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="mailto:hello@foreverscribbles.com">General Questions</a></li>
+                        <li><a href="mailto:orders@foreverscribbles.com">Order Support</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#" id="privacy-policy">Privacy Policy</a></li>
+                        <li><a href="#" id="terms">Terms of Service</a></li>
+                        <li><a href="#" id="shipping">Shipping & Returns</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Forever Scribbles. All rights reserved. Made with ❤️ for creative families.</p>
+                <div class="admin-link">
+                    <a href="#" onclick="showAdminLogin()">Admin</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin Login Modal -->
+    <div id="admin-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAdminModal()">&times;</span>
+            <h2>Admin Dashboard</h2>
+            <form id="admin-login" onsubmit="adminLogin(event)">
+                <div class="form-group">
+                    <label for="admin-password">Password</label>
+                    <input type="password" id="admin-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="modal">
+        <div class="modal-content admin-content">
+            <span class="close" onclick="closeAdminDashboard()">&times;</span>
+            <h2>Admin Dashboard</h2>
+            
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="content">Content</button>
+                <button class="tab-btn" data-tab="orders">Orders</button>
+                <button class="tab-btn" data-tab="settings">Settings</button>
+            </div>
+            
+            <div id="content-tab" class="tab-content active">
+                <h3>Edit Website Content</h3>
+                <div class="admin-section">
+                    <label>Hero Title</label>
+                    <input type="text" id="hero-title-edit" value="Turn Your Kid's Art Into Real Coloring Books">
+                    <button onclick="updateHeroTitle()">Update</button>
+                </div>
+                <div class="admin-section">
+                    <label>Hero Subtitle</label>
+                    <textarea id="hero-subtitle-edit">Upload the masterpieces, we'll handle the magic—print or digital. Create lasting memories from your child's creativity.</textarea>
+                    <button onclick="updateHeroSubtitle()">Update</button>
+                </div>
+            </div>
+            
+            <div id="orders-tab" class="tab-content">
+                <h3>Recent Orders</h3>
+                <div class="orders-list">
+                    <div class="order-item">
+                        <span>Order #001 - Emma's Book - $35.00 - Pending</span>
+                        <button class="btn-small">View</button>
+                    </div>
+                    <div class="order-item">
+                        <span>Order #002 - Max's Adventure - $55.00 - In Progress</span>
+                        <button class="btn-small">View</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="settings-tab" class="tab-content">
+                <h3>Website Settings</h3>
+                <div class="admin-section">
+                    <label>Contact Email</label>
+                    <input type="email" id="contact-email" value="hello@foreverscribbles.com">
+                    <button onclick="updateContactEmail()">Update</button>
+                </div>
+                <div class="admin-section">
+                    <label>Facebook URL</label>
+                    <input type="url" id="facebook-url" value="https://facebook.com/foreverscribbles">
+                    <button onclick="updateFacebookUrl()">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    <script src="order.js" defer></script>
+
+</body>
+</html>

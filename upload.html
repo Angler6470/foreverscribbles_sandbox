@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upload Your Artwork — Forever Scribbles</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main style="max-width:800px;margin:2rem auto;padding:1rem">
+    <h1>Upload Your Artwork</h1>
+    <div id="status">Verifying payment...</div>
+    <div id="uploader" style="display:none">
+      <input id="file" type="file" multiple />
+      <div id="list"></div>
+    </div>
+  </main>
+  <script>
+    const API_BASE = 'https://foreverscribbles-sandbox.vercel.app';
+    const qs = new URLSearchParams(location.search);
+    const sessionId = qs.get('session_id');
+
+    async function verify() {
+      const res = await fetch(`${API_BASE}/api/verify-session?session_id=${encodeURIComponent(sessionId)}`);
+      const data = await res.json();
+      if (data.paid) {
+        document.getElementById('status').textContent = 'Payment verified. Upload below.';
+        document.getElementById('uploader').style.display = 'block';
+      } else {
+        document.getElementById('status').textContent = 'Payment not verified.';
+      }
+    }
+    verify();
+  </script>
+</body>
+</html>
