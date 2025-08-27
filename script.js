@@ -12,14 +12,6 @@ let selectedPackage = null;
 let paymentCompleted = false;
 let adminLoggedIn = false;
 
-// Initialize form handlers
-const contactForm = new FormHandler('contact-form', {
-    endpoint: CONFIG.FORMSPREE_ENDPOINT,
-    successCallback: () => {
-        showNotification('Thank you for your message! We\'ll respond within 24 hours.', 'success');
-    }
-});
-
 // Initialize payment handler
 const paymentHandler = new PaymentHandler();
 

@@ -23,9 +23,6 @@
     <!-- Load Stripe -->
     <script src="https://js.stripe.com/v3/"></script>
     
-    <!-- Our modules -->
-    <script src="js/forms.js"></script>
-    <script src="js/payments.js"></script>
 </head>
 <body>
     <!-- Notification Container -->
@@ -360,14 +357,6 @@
                             <p>Tell us about your order and complete payment to unlock the upload form.</p>
                         </div>
                         
-                        <iframe 
-                            src="https://form.jotform.com/252193946303054" 
-                            width="100%" 
-                            height="800" 
-                            frameborder="0" 
-                            scrolling="auto"
-                            title="Forever Scribbles Order Form - Step 1">
-                        </iframe>
                     </div>
                 </div>
                 
@@ -379,14 +368,6 @@
                             <p>Great! Now upload your child's beautiful artwork and we'll get started on your coloring book.</p>
                         </div>
                         
-                        <iframe 
-                            src="https://form.jotform.com/252193255747059" 
-                            width="100%" 
-                            height="600" 
-                            frameborder="0" 
-                            scrolling="auto"
-                            title="Forever Scribbles Upload Form - Step 2">
-                        </iframe>
                     </div>
                 </div>
                 
@@ -661,9 +642,15 @@
         </div>
     </div>
 
-    <!-- JavaScript -->
-    <script src="script.js"></script>
-    <script src="order.js" defer></script>
+<!-- Safety stub so old calls don't throw errors -->
+<script>
+  window.FormHandler = window.FormHandler || { init: () => {} };
+</script>
+
+    <script>
+</script>
+<script src="script.js"></script>
+<script src="order.js" defer></script>
 
 </body>
 </html>

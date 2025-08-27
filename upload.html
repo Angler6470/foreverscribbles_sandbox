@@ -10,10 +10,36 @@
   <main style="max-width:800px;margin:2rem auto;padding:1rem">
     <h1>Upload Your Artwork</h1>
     <div id="status">Verifying payment...</div>
-    <div id="uploader" style="display:none">
-      <input id="file" type="file" multiple />
-      <div id="list"></div>
-    </div>
+    <!-- Uploader (hidden by default; your JS will .style.display='block' after payment) -->
+<div id="uploader" style="display:none; margin-top:2rem;">
+  <h2>Upload your artwork</h2>
+
+  <form id="uploadForm">
+    <!-- useful order info -->
+    <input type="hidden" id="sessionIdInput" name="session_id">
+
+    <label>
+      Your email (for receipt/updates)
+      <input id="emailInput" name="email" type="email" required>
+    </label>
+
+    <label style="display:block; margin-top:1rem;">
+      Notes (optional)
+      <textarea id="notesInput" name="notes" rows="3" placeholder="Anything we should know?"></textarea>
+    </label>
+
+    <label style="display:block; margin-top:1rem;">
+      Artwork files (PNG/JPG/PDF, up to 20 files)
+      <input id="fileInput" type="file" accept=".png,.jpg,.jpeg,.pdf" multiple required>
+    </label>
+
+    <button id="startUploadBtn" type="submit" style="margin-top:1rem;">Start upload</button>
+  </form>
+
+  <div id="uploadStatus" style="margin-top:1rem; font-family:monospace;"></div>
+  <ul id="uploadList" style="margin-top:.5rem;"></ul>
+</div>
+
   </main>
   <script>
     const API_BASE = 'https://foreverscribbles-sandbox.vercel.app';
@@ -29,6 +55,122 @@
       } else {
         document.getElementById('status').textContent = 'Payment not verified.';
       }
+      
+      <script>
+  // ------------- fill session_id into the form -------------
+  (function setSessionIdHiddenField() {
+    const qs = new URLSearchParams(location.search);
+    const sid = qs.get('session_id') || '';
+    const hidden = document.getElementById('sessionIdInput');
+    if (hidden) hidden.value = sid;
+  })();
+
+  // ------------- small helpers -------------
+  const $ = (id) => document.getElementById(id);
+  const statusBox = $('uploadStatus');
+  const list = $('uploadList');
+
+  function logStatus(msg) {
+    statusBox.textContent = msg;
+  }
+  function addLine(text) {
+    const li = document.createElement('li');
+    li.textContent = text;
+    list.appendChild(li);
+    return li;
+  }
+
+  // ------------- ask backend where to upload a file -------------
+  async function getUploadTarget({ filename, contentType, session_id, email, notes }) {
+    // Your existing Vercel function should be available at the same origin:
+    //    POST /api/upload-url
+    // Expected typical responses (support both):
+    //  A) { url, fields }  -> S3 "POST" with form fields
+    //  B) { url, method:'PUT' } -> upload with PUT
+    const res = await fetch('/api/upload-url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ filename, contentType, session_id, email, notes })
+    });
+    if (!res.ok) throw new Error('upload-url failed: ' + res.status);
+    return res.json();
+  }
+
+  // ------------- upload using either POST (fields) or PUT (direct) -------------
+  async function uploadFileToTarget(file, target, onProgress) {
+    // Case A: S3 POST (form-data with fields + file)
+    if (target.fields) {
+      const formData = new FormData();
+      Object.entries(target.fields).forEach(([k, v]) => formData.append(k, v));
+      formData.append('file', file);
+
+      // NOTE: browsers don't give granular progress for fetch/FormData uploads.
+      // We still show "Uploading..." and final statuses.
+      const res = await fetch(target.url, { method: 'POST', body: formData });
+      if (!res.ok) throw new Error('S3 POST failed: ' + res.status);
+      return true;
+    }
+
+    // Case B: PUT to a signed URL
+    const putRes = await fetch(target.url, {
+      method: target.method || 'PUT',
+      headers: { 'Content-Type': file.type || 'application/octet-stream' },
+      body: file
+    });
+    if (!putRes.ok) throw new Error('PUT failed: ' + putRes.status);
+    return true;
+  }
+
+  // ------------- main form submit handler -------------
+  $('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const files = Array.from($('fileInput').files || []);
+    if (files.length === 0) { logStatus('Please choose at least one file.'); return; }
+    if (files.length > 20) { logStatus('Please select 20 files or fewer.'); return; }
+
+    const email = $('emailInput').value.trim();
+    const notes = $('notesInput').value.trim();
+    const session_id = $('sessionIdInput').value;
+
+    // Simple client checks
+    const maxEachMB = 25; // tweak if you want
+    for (const f of files) {
+      if (f.size > maxEachMB * 1024 * 1024) {
+        logStatus(`"${f.name}" is larger than ${maxEachMB}MB. Please pick a smaller file.`);
+        return;
+      }
+    }
+
+    logStatus('Preparing uploads…');
+
+    // Upload sequentially (simpler) – change to Promise.all if you want parallel
+    for (const file of files) {
+      const row = addLine(`⏳ ${file.name} — requesting upload URL…`);
+      try {
+        const target = await getUploadTarget({
+          filename: file.name,
+          contentType: file.type || 'application/octet-stream',
+          session_id,
+          email,
+          notes
+        });
+
+        row.textContent = `⬆️ ${file.name} — uploading…`;
+        await uploadFileToTarget(file, target);
+        row.textContent = `✅ ${file.name} — uploaded`;
+      } catch (err) {
+        row.textContent = `❌ ${file.name} — ${err.message}`;
+        console.error(err);
+        logStatus('Some files failed. You can retry the failed ones.');
+        return; // stop on first failure; remove this line to continue with others
+      }
+    }
+
+    logStatus('All files uploaded! You’re all set. 🎉');
+  });
+</script>
+      
     }
     verify();
   </script>
